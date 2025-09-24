@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
@@ -18,7 +19,7 @@ function App() {
               <Route path="/" element={<ItemListContainer />} />
               <Route path="/category/:category" element={<ItemListContainer />} />
               <Route path="/item/:id" element={<ItemDetailContainer />} />
-              <Route path="/cart" element={<Cart />} /> {/* Nueva ruta */}
+              <Route path="/cart" element={<Cart />} />
               <Route path="*" element={<div className="not-found">PÁGINA NO ENCONTRADA - ERROR 404</div>} />
             </Routes>
           </main>

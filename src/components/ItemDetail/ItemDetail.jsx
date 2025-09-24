@@ -1,3 +1,4 @@
+// src/components/ItemDetail/ItemDetail.jsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ItemCount from '../ItemCount/ItemCount';
@@ -9,6 +10,7 @@ const ItemDetail = ({ product }) => {
   const { addItem } = useCart();
 
   const handleOnAdd = (quantity) => {
+    console.log('ItemDetail - Cantidad seleccionada:', quantity); // Debug
     setQuantityAdded(quantity);
     addItem(product, quantity);
   };
@@ -26,16 +28,20 @@ const ItemDetail = ({ product }) => {
         
         {quantityAdded > 0 ? (
           <div className="item-added">
-            <p>✓ {quantityAdded} producto(s) agregado(s)</p>
+            <p>✓ {quantityAdded} producto(s) agregado(s) al carrito</p>
             <Link to="/cart" className="cyberpunk-button">
-              TERMINAR COMPRA
+              VER CARRITO
             </Link>
             <Link to="/" className="cyberpunk-button secondary">
               SEGUIR COMPRANDO
             </Link>
           </div>
         ) : (
-          <ItemCount stock={product.stock} onAdd={handleOnAdd} />
+          <ItemCount 
+            stock={product.stock} 
+            onAdd={handleOnAdd} 
+            initial={1}
+          />
         )}
         
         <Link to={`/category/${product.category}`} className="back-link">
