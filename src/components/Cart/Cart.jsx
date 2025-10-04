@@ -1,17 +1,22 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import Checkout from '../Checkout/Checkout';
 import './Cart.css';
 
 const Cart = () => {
   const { cart, removeItem, clearCart, getTotalPrice, getTotalItems, debugCart } = useCart();
+  const [showCheckout, setShowCheckout] = useState(false);
 
-  
   React.useEffect(() => {
     console.log('Cart page - Carrito actual:', cart);
     debugCart();
   }, [cart, debugCart]);
+
+  // Si estamos en checkout, mostrar el formulario
+  if (showCheckout) {
+    return <Checkout />;
+  }
 
   if (cart.length === 0) {
     return (
@@ -75,7 +80,10 @@ const Cart = () => {
             <Link to="/" className="cyberpunk-button secondary">
               SEGUIR COMPRANDO
             </Link>
-            <button className="cyberpunk-button">
+            <button 
+              onClick={() => setShowCheckout(true)}
+              className="cyberpunk-button"
+            >
               FINALIZAR COMPRA
             </button>
           </div>

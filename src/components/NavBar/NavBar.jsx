@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
 import './NavBar.css';
 
 const NavBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
     
-    console.log('Buscando:', searchTerm);
+    if (searchTerm.trim()) {
+      // Navegar a la ruta de búsqueda
+      navigate(`/search?q=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm(''); // Limpiar el campo de búsqueda
+    }
   };
 
   return (

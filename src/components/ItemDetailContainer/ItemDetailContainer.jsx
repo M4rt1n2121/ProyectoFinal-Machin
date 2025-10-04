@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getProductById } from '../../data/products';
-import ItemDetail from '../ItemDetail/ItemDetail';
-import './ItemDetailContainer.css';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { getProductById } from "../../services/productService";
+import ItemDetail from "../ItemDetail/ItemDetail"; 
+import "./ItemDetailContainer.css";
 
 const ItemDetailContainer = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { id } = useParams();
 
   useEffect(() => {
-    setLoading(true);
-    
-    getProductById(id).then(data => {
-      setProduct(data);
-      setLoading(false);
-    });
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const productData = await getProductById(id);
+        setProduct(productData);
+      } catch (err) {
+        console.error("Error fetching product:", err);
+        setError("Error al cargar el producto");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
   }, [id]);
 
   if (loading) {
@@ -29,11 +39,19 @@ const ItemDetailContainer = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="page-container">
+        <div className="error-container">
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="page-container">
-      <div className="item-detail-container">
-        {product ? <ItemDetail product={product} /> : <p>Producto no encontrado</p>}
-      </div>
+      {product ? <ItemDetail product={product} /> : <div>Producto no encontrado</div>}
     </div>
   );
 };

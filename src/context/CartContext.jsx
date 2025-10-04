@@ -40,15 +40,19 @@ export const CartProvider = ({ children }) => {
     setCart([]);
   };
 
-  const getTotalItems = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
-  };
-
   const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  };
+  const total = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  console.log('Calculando total:', total, 'con carrito:', cart); // DEBUG
+  return total;
+};
 
-  // Función de debug para ver el carrito actual
+const getTotalItems = () => {
+  const total = cart.reduce((total, item) => total + item.quantity, 0);
+  console.log('Calculando total items:', total, 'con carrito:', cart); // DEBUG
+  return total;
+};
+
+  
   const debugCart = () => {
     console.log('Carrito actual:', cart);
   };
@@ -61,7 +65,7 @@ export const CartProvider = ({ children }) => {
       clearCart,
       getTotalItems,
       getTotalPrice,
-      debugCart // Para debugging
+      debugCart 
     }}>
       {children}
     </CartContext.Provider>
